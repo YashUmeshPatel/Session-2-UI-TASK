@@ -1,31 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenManager : MonoBehaviour
+
+class ScreenManager : BaseClass
 {
-    [SerializeField] private GameObject PopUpUI;
+    public List<BaseClass> ScreenList;
 
-    [SerializeField] private GameObject Login_Register_Page;
-    [SerializeField] private GameObject Lobby_Page;
-    [SerializeField] private GameObject GamePlay_Page;
+    BaseClass CurrentScreen;
 
-    public void loginButton_Onclick()
+    public static ScreenManager instance;
+
+    private void Awake()
     {
-        Login_Register_Page.GetComponent<Canvas>().enabled = false;
-        Lobby_Page.GetComponent<Canvas>().enabled = true;
+        instance = this;
+        CurrentScreen = ScreenList[0];
     }
-
-    public void PlayNowButton_OnClick()
+    public void showNextScreen(Screen MyScreen)
     {
-        Lobby_Page.GetComponent<Canvas>().enabled = false;
-        GamePlay_Page.GetComponent<Canvas>().enabled = true;
-    }
-
-    public void DropAndJoinNewTableButton()
-    {
-        GamePlay_Page.GetComponent<Canvas>().enabled = false;
-        Lobby_Page.GetComponent<Canvas>().enabled = true;
-        PopUpUI.SetActive(false);
+        CurrentScreen.hideScreen();
+        ScreenList[(int)MyScreen].showScreen();
+        CurrentScreen = ScreenList[(int)MyScreen];
     }
 }
+
+
